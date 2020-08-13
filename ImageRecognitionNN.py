@@ -155,6 +155,7 @@ class NeuralNetwork():
 
     def train(self, trainImages, trainLabels):
         size = str(self.bs)
+        accuracy = 0
         err_sum = 0.0
         err_count = 0
         avg_err = 0.0
