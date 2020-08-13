@@ -230,8 +230,8 @@ if __name__ == "__main__":
     plt.xlabel('Batches')
     plt.show()
 
-    stats_file = open("stats_file", "a+")
-    stats_file.write("Correct: " + str(size-incorrect) + "\nIncorrect: " + str(incorrect))
-    stats_file.write("\nOptimization: " + nn.optimizer + "\nActivation: " + nn.activation)
-    stats_file.write("\nNum Using: "+str(nn.numUsing) + "\nBatch Size: "+str(nn.bs) + "\nLearning Rate: "+str(nn.learningRate) + "\nLambda: "+str(nn.Lambda) + "\n\n\n")
-    stats_file.close
+    # stats_file = open("stats_file", "a+")
+    # stats_file.write("Correct: " + str(size-incorrect) + "\nIncorrect: " + str(incorrect))
+    # stats_file.write("\nOptimization: " + nn.optimizer + "\nActivation: " + nn.activation)
+    # stats_file.write("\nNum Using: "+str(nn.numUsing) + "\nBatch Size: "+str(nn.bs) + "\nLearning Rate: "+str(nn.learningRate) + "\nLambda: "+str(nn.Lambda) + "\n\n\n")
+    # stats_file.close
