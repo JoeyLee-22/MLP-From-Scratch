@@ -57,10 +57,10 @@ class NeuralNetwork():
         self.V_db1_correct = np.empty(sizes[1])
         self.V_db2_correct = np.empty(sizes[2])
 
-        self.S_db2_correct = self.S_db2/(1-np.power(self.beta2, self.bs))
-        self.S_dw2_correct = self.S_dw2/(1-np.power(self.beta2, self.bs))
-        self.S_db1_correct = self.S_db1/(1-np.power(self.beta2, self.bs))
-        self.S_dw1_correct = self.S_dw1/(1-np.power(self.beta2, self.bs))
+        self.S_dw1_correct = np.empty([sizes[1], sizes[0]])
+        self.S_dw2_correct = np.empty([sizes[2], sizes[1]])
+        self.S_db1_correct = np.empty(sizes[1])
+        self.S_db2_correct = np.empty(sizes[2])
 
         self.hiddenLayerErrors = np.empty(sizes[1])
         self.outputLayerErrors = np.empty(sizes[2])
