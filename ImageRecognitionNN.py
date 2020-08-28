@@ -34,8 +34,10 @@ class NeuralNetwork():
 
         self.w1 = np.random.rand(sizes[1], sizes[0]) * 2 - 1
         self.w2 = np.random.rand(sizes[2], sizes[1]) * 2 - 1
-        self.b1 = np.random.rand(sizes[1]) * 2 - 1
-        self.b2 = np.random.rand(sizes[2]) * 2 - 1
+        # self.b1 = np.random.rand(sizes[1]) * 2 - 1
+        # self.b2 = np.random.rand(sizes[2]) * 2 - 1
+        self.b1 = np.zeros([sizes[1]])
+        self.b2 = np.zeros([sizes[2]])
 
         self.dw1 = np.zeros([sizes[1], sizes[0]])
         self.dw2 = np.zeros([sizes[2], sizes[1]])
@@ -193,7 +195,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 128, 10], 'adam', 'relu')
+    nn = NeuralNetwork([784, 128, 10], 'momentum', 'relu')
 
     start_time = time.time()
     for i in range (nn.epochs):
