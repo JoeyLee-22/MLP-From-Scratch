@@ -159,7 +159,6 @@ class NeuralNetwork():
         size = str(self.bs)
         accuracy = 0
         err_sum = 0.0
-        err_count = 0
         avg_err = 0.0
         correct = 0
 
@@ -176,8 +175,7 @@ class NeuralNetwork():
 
             error = np.amax(np.absolute(self.outputLayerErrors))
             err_sum += error
-            err_count += 1
-            avg_err = err_sum / err_count
+            avg_err = err_sum / (m+1)
             left = self.width * int(m/(self.bs/100)) // 100
             accuracy = str(int((correct/(m+1))*100)) + '%'
             print (str(m) + '/' + str(self.bs) + ' ['+'='*left+">"+'.'*((self.width - left)-1)+']' + " - Accuracy: " + accuracy + " - Loss: " + str(round(avg_err, 10)), end="\r")
