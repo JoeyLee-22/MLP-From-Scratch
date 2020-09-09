@@ -13,7 +13,7 @@ class NeuralNetwork():
     width = 40
     epochs = 5
     numUsing = 60000
-    bs = 250
+    bs = 60000
     beta1 = 0.9
     beta2 = 0.999
     epsilon = 1e-8
@@ -82,8 +82,7 @@ class NeuralNetwork():
 
     def forwardProp(self, inputs):
         if self.activation == 'sigmoid':
-            for i in range (self.dimensions[1]):
-                self.secondLayerNeurons[i] = self.sigmoid(np.dot(self.w1[i], inputs)+self.b1[i])
+            self.secondLayerNeurons = self.sigmoid(self.w1 @ inputs + self.b1)
         elif self.activation == 'relu':
             for i in range (self.dimensions[1]):
                 self.secondLayerNeurons[i] = self.relu(np.dot(self.w1[i], inputs)+self.b1[i])
@@ -193,7 +192,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 128, 10], 'momentum', 'relu')
+    nn = NeuralNetwork([784, 128, 10], 'momentum', 'sigmoid')
 
     start_time = time.time()
     for i in range (nn.epochs):
