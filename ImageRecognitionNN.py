@@ -75,7 +75,7 @@ class NeuralNetwork():
         return np.multiply(x,(1-x))
 
     def relu(self, x):
-	    return max(0.0, x)
+	    return np.maximum(0.0, x)
     
     def reluDerivative(self, x):
         return 1 * (x > 0)
@@ -84,8 +84,9 @@ class NeuralNetwork():
         if self.activation == 'sigmoid':
             self.secondLayerNeurons = self.sigmoid(self.w1 @ inputs + self.b1)
         elif self.activation == 'relu':
-            for i in range (self.dimensions[1]):
-                self.secondLayerNeurons[i] = self.relu(np.dot(self.w1[i], inputs)+self.b1[i])
+            # for i in range (self.dimensions[1]):
+            #     self.secondLayerNeurons[i] = self.relu(np.dot(self.w1[i], inputs)+self.b1[i])
+            self.secondLayerNeurons = self.relu(self.w1 @ inputs + self.b1)
 
         for i in range (self.dimensions[2]):
             self.outputNeurons[i] = self.sigmoid(np.dot(self.w2[i], self.secondLayerNeurons)+self.b2[i])
@@ -192,7 +193,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 128, 10], 'momentum', 'sigmoid')
+    nn = NeuralNetwork([784, 128, 10], 'momentum', 'relu')
 
     start_time = time.time()
     for i in range (nn.epochs):
