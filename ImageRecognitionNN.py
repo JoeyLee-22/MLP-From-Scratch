@@ -17,7 +17,7 @@ class NeuralNetwork():
     beta1 = 0.9
     beta2 = 0.999
     epsilon = 1e-8
-    learningRate = 0.001
+    learningRate = 1e-3
     Lambda = 0
 
     def __init__(self, sizes, optimizer, hiddenActivation, outputActivation): 
@@ -200,7 +200,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 512, 10], 'adam', 'relu', 'softmax')
+    nn = NeuralNetwork([784, 512, 10], 'momentum', 'relu', 'softmax')
 
     start_time = time.time()
     for i in range (nn.epochs):
@@ -209,6 +209,7 @@ if __name__ == "__main__":
             print("Epoch", str(i+1) + "/" + str(nn.epochs) + ": Batch " + str(j+1) + "/" + str(int(nn.numUsing/nn.bs)))
             nn.y[j+i*(int(nn.numUsing/nn.bs))] = nn.train(train_images[int(j * nn.bs):int(j * nn.bs) + nn.bs], train_labels[int(j * nn.bs):int(j * nn.bs) + nn.bs])
         time2 = round((time.time() - start_time2), 2)
+
         if time2 > 60:
             print ("Epoch " + str(i+1) + " took " + str(round(time2/60, 2)) + " minutes\n\n")
         else:
