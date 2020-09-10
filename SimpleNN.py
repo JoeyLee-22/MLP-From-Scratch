@@ -83,6 +83,7 @@ class NeuralNetwork():
         self.secondLayerBiasesSummations = np.zeros(self.dimensions[2])
 
     def train(self, trainImages, trainLabels):
+        accuracy = 0
         size = str(self.sizeOfEpoch)
         start_time2 = time.time()
 
