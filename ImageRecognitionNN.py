@@ -11,7 +11,7 @@ class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 class NeuralNetwork():
 
     width = 40
-    epochs = 5
+    epochs = 3
     numUsing = 60000
     bs = 250
     beta1 = 0.9
@@ -20,11 +20,12 @@ class NeuralNetwork():
     learningRate = 0.001
     Lambda = 0
 
-    def __init__(self, sizes, optimizer, activation): 
+    def __init__(self, sizes, optimizer, hiddenActivation, outputActivation): 
         self.dimensions = sizes
 
         self.optimizer = optimizer
-        self.activation = activation
+        self.hiddenActivation = hiddenActivation
+        self.outputActivation = outputActivation
 
         self.x = np.arange(1,((self.numUsing/self.bs)*self.epochs)+1)
         self.y = np.empty(int(((self.numUsing/self.bs)*self.epochs)))
@@ -80,20 +81,28 @@ class NeuralNetwork():
     def reluDerivative(self, x):
         return 1 * (x > 0)
 
+    def softmax(self, x):
+        return np.exp(x)/sum(np.exp(x))
+
+    def softmaxDerivative(self, x):
+        return np.multiply(x,(1-x))
+
     def forwardProp(self, inputs):
-        if self.activation == 'sigmoid':
+        if self.hiddenActivation == 'sigmoid':
             self.secondLayerNeurons = self.sigmoid(self.w1 @ inputs + self.b1)
-        elif self.activation == 'relu':
+        elif self.hiddenActivation == 'relu':
             self.secondLayerNeurons = self.relu(self.w1 @ inputs + self.b1)
 
-        for i in range (self.dimensions[2]):
-            self.outputNeurons[i] = self.sigmoid(np.dot(self.w2[i], self.secondLayerNeurons)+self.b2[i])
+        if self.outputActivation == 'sigmoid':
+            self.outputNeurons = self.sigmoid(self.w2 @ self.secondLayerNeurons + self.b2)
+        elif self.outputActivation == 'softmax':
+            self.outputNeurons = self.softmax(self.w2 @ self.secondLayerNeurons + self.b2)
 
     def backProp(self, inputs, correct_output):
         self.outputLayerErrors = np.subtract(self.outputNeurons, correct_output)
-        if self.activation == 'sigmoid':
+        if self.hiddenActivation == 'sigmoid':
             self.hiddenLayerErrors = np.multiply(np.dot(self.w2.T, self.outputLayerErrors), self.sigmoidDerivative(self.secondLayerNeurons))
-        elif self.activation == 'relu':
+        elif self.hiddenActivation == 'relu':
             self.hiddenLayerErrors = np.multiply(np.dot(self.w2.T, self.outputLayerErrors), self.reluDerivative(self.secondLayerNeurons))
 
         self.db2 += self.outputLayerErrors
@@ -191,7 +200,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 256, 10], 'momentum', 'relu')
+    nn = NeuralNetwork([784, 512, 10], 'adam', 'relu', 'softmax')
 
     start_time = time.time()
     for i in range (nn.epochs):
@@ -231,6 +240,6 @@ if __name__ == "__main__":
 
     # stats_file = open("stats_file", "a+")
     # stats_file.write("Correct: " + str(size-incorrect) + "\nIncorrect: " + str(incorrect))
-    # stats_file.write("\nOptimization: " + nn.optimizer + "\nActivation: " + nn.activation)
+    # stats_file.write("\nOptimization: " + nn.optimizer + "\nActivation: " + nn.hiddenif self.hiddenActivation)
     # stats_file.write("\nNum Using: "+str(nn.numUsing) + "\nBatch Size: "+str(nn.bs) + "\nLearning Rate: "+str(nn.learningRate) + "\nLambda: "+str(nn.Lambda) + "\n\n\n")
     # stats_file.close
