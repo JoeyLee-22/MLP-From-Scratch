@@ -10,7 +10,7 @@ class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 class NeuralNetwork():
 
     width = 40
-    epochs = 3
+    epochs = 2
     numUsing = 60000
     bs = 250
     beta1 = 0.9
@@ -81,6 +81,7 @@ class NeuralNetwork():
         return 1 * (x > 0)
 
     def softmax(self, x):
+        warnings.filterwarnings("ignore")
         return np.exp(x)/sum(np.exp(x))
 
     def softmaxDerivative(self, x):
@@ -192,7 +193,7 @@ class NeuralNetwork():
 
     def predict(self, testImage):
         self.forwardProp(testImage)
-        return np.argmax(self.outputNeurons)
+        return np.argmax(self.outputNeurons), self.outputNeurons
 
 if __name__ == "__main__":
 
@@ -226,8 +227,8 @@ if __name__ == "__main__":
     bar = IncrementalBar('TESTING:', max = size)
     for i in range (size):
         bar.next()
-        prediction = nn.predict(test_images[i].flatten())
-        correct = int(class_names[test_labels[i]])
+        prediction, output = nn.predict(test_images[i].flatten())
+        correct = int(test_labels[i])
         if correct != prediction:
             incorrect += 1
     bar.finish()
