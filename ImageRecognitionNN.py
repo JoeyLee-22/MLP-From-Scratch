@@ -80,9 +80,14 @@ class NeuralNetwork():
     def reluDerivative(self, x):
         return 1 * (x > 0)
 
+    # def softmax(self, x):
+    #     warnings.filterwarnings("ignore")
+    #     return np.exp(x)/sum(np.exp(x))
+
     def softmax(self, x):
-        warnings.filterwarnings("ignore")
-        return np.exp(x)/sum(np.exp(x))
+        shiftx = x - np.max(x)
+        exps = np.exp(shiftx)
+        return exps / np.sum(exps)
 
     def forwardProp(self, inputs):
         if self.hiddenActivation == 'sigmoid':
