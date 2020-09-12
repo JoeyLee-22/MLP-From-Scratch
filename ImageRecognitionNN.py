@@ -80,13 +80,8 @@ class NeuralNetwork():
     def reluDerivative(self, x):
         return 1 * (x > 0)
 
-    # def softmax(self, x):
-    #     warnings.filterwarnings("ignore")
-    #     return np.exp(x)/sum(np.exp(x))
-
     def softmax(self, x):
-        shiftx = x - np.max(x)
-        exps = np.exp(shiftx)
+        exps = np.exp(x - np.max(x))
         return exps / np.sum(exps)
 
     def forwardProp(self, inputs):
@@ -226,7 +221,7 @@ if __name__ == "__main__":
 
     incorrect = 0
     size1 = test_images.shape[0]
-    bar1 = IncrementalBar('TEST DATA TESTING:', max = size1)
+    bar1 = IncrementalBar('TESTING:', max = size1)
     for i in range (size1):
         bar1.next()
         prediction = nn.predict(test_images[i].flatten())
@@ -235,18 +230,6 @@ if __name__ == "__main__":
             incorrect += 1
     bar1.finish()
     print ("\nTESTING DONE\n" + "Correct: " + str(size1-incorrect) + "\nIncorrect: " + str(incorrect) + "\n")    
-
-    incorrect = 0
-    size2 = nn.numUsing
-    bar2 = IncrementalBar('TRAIN DATA TESTING:', max = size2)
-    for i in range (size2):
-        bar2.next()
-        prediction = nn.predict(train_images[i].flatten())
-        correct = int(train_labels[i])
-        if correct != prediction:
-            incorrect += 1
-    bar2.finish()
-    print ("\nTESTING DONE\n" + "Correct: " + str(size2-incorrect) + "\nIncorrect: " + str(incorrect) + "\n")
 
     plt.plot(nn.x, nn.y)
     plt.ylabel('Avg Error')
