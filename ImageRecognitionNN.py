@@ -193,7 +193,7 @@ class NeuralNetwork():
 
     def predict(self, testImage):
         self.forwardProp(testImage)
-        return np.argmax(self.outputNeurons), self.outputNeurons
+        return np.argmax(self.outputNeurons)
 
 if __name__ == "__main__":
 
@@ -227,7 +227,7 @@ if __name__ == "__main__":
     bar = IncrementalBar('TESTING:', max = size)
     for i in range (size):
         bar.next()
-        prediction, output = nn.predict(test_images[i].flatten())
+        prediction = nn.predict(test_images[i].flatten())
         correct = int(test_labels[i])
         if correct != prediction:
             incorrect += 1
