@@ -197,7 +197,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 512, 10], 'momentum', 'relu', 'softmax')
+    nn = NeuralNetwork([784, 512, 10], 'adam', 'relu', 'softmax')
 
     start_time = time.time()
     for i in range (nn.epochs):
