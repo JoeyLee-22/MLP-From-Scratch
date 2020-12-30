@@ -1,6 +1,6 @@
 # Multi Layer Perceptron
 
-A multi layer perceptron from scratch using python and numpy to classify the mnist dataset with a ~90% accuracy
+A multi layer perceptron from scratch using python and numpy to classify the mnist dataset with a ~95% accuracy
 
 There are three different types of optimizers: vanilla, momentum, and adam
 
