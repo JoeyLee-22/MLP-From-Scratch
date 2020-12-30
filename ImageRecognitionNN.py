@@ -2,6 +2,7 @@ import time
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
+from numpy.core.fromnumeric import size
 from tensorflow.keras.datasets import mnist
 from progress.bar import IncrementalBar
 
@@ -101,10 +102,10 @@ class NeuralNetwork():
             self.hiddenLayerErrors = np.multiply(np.dot(self.w2.T, self.outputLayerErrors), self.reluDerivative(self.secondLayerNeurons))
 
         self.db2 += self.outputLayerErrors
-        self.dw2 += np.outer(self.outputLayerErrors, self.secondLayerNeurons)
-
+        self.dw2 += np.dot(self.outputLayerErrors.reshape(self.sizes[2],1), self.secondLayerNeurons.reshape(1,self.sizes[1]))
+              
         self.db1 += self.hiddenLayerErrors
-        self.dw1 += np.outer(self.hiddenLayerErrors, inputs)
+        self.dw1 += np.dot(self.hiddenLayerErrors.reshape(self.sizes[1],1), inputs.reshape(1,self.sizes[0]))
 
     def change(self):
         if self.optimizer == 'vanilla':
