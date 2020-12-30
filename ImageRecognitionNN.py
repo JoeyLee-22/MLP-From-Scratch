@@ -20,7 +20,7 @@ class NeuralNetwork():
     Lambda = 0
 
     def __init__(self, sizes, optimizer, hiddenActivation, outputActivation): 
-        self.dimensions = sizes
+        self.sizes = sizes
 
         self.optimizer = optimizer
         self.hiddenActivation = hiddenActivation
@@ -34,8 +34,6 @@ class NeuralNetwork():
 
         self.w1 = np.random.rand(sizes[1], sizes[0]) * 2 - 1
         self.w2 = np.random.rand(sizes[2], sizes[1]) * 2 - 1
-        # self.b1 = np.random.rand(sizes[1]) * 2 - 1
-        # self.b2 = np.random.rand(sizes[2]) * 2 - 1
         self.b1 = np.zeros([sizes[1]])
         self.b2 = np.zeros([sizes[2]])
 
@@ -154,10 +152,10 @@ class NeuralNetwork():
             self.b1 -= self.learningRate * (self.V_db1_correct/(np.sqrt(self.S_db1_correct)+self.epsilon))
             self.w1 -= self.learningRate * (self.V_dw1_correct/(np.sqrt(self.S_dw1_correct)+self.epsilon))
 
-        self.dw1 = np.zeros([self.dimensions[1], self.dimensions[0]])
-        self.dw2 = np.zeros([self.dimensions[2], self.dimensions[1]])
-        self.db1 = np.zeros(self.dimensions[1])
-        self.db2 = np.zeros(self.dimensions[2])
+        self.dw1 = np.zeros([self.sizes[1], self.sizes[0]])
+        self.dw2 = np.zeros([self.sizes[2], self.sizes[1]])
+        self.db1 = np.zeros(self.sizes[1])
+        self.db2 = np.zeros(self.sizes[2])
 
     def train(self, trainImages, trainLabels):
         size = str(self.bs)
@@ -168,7 +166,7 @@ class NeuralNetwork():
 
         batch_start_time = time.time()
         for m in range (self.bs):
-            correct_output = np.zeros([self.dimensions[2]])
+            correct_output = np.zeros([self.sizes[2]])
             correct_output[trainLabels[m]] = 1.0
 
             self.forwardProp(trainImages[m].flatten())
@@ -197,7 +195,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 512, 10], 'adam', 'relu', 'softmax')
+    nn = NeuralNetwork([784, 512, 10], 'vanilla', 'relu', 'softmax')
 
     start_time = time.time()
     for i in range (nn.epochs):
