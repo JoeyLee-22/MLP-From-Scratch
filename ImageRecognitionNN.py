@@ -115,15 +115,15 @@ class NeuralNetwork():
             self.w1 -= self.learningRate * (self.dw1 + self.Lambda * self.w1)
 
         elif self.optimizer == 'momentum':
-            self.V_db2 = self.beta1*self.V_db2 + (1-self.beta1)*self.db2
-            self.V_dw2 = self.beta1*self.V_dw2 + (1-self.beta1)*self.dw2
-            self.V_db1 = self.beta1*self.V_db1 + (1-self.beta1)*self.db1
-            self.V_dw1 = self.beta1*self.V_dw1 + (1-self.beta1)*self.dw1
+            self.V_db2 = self.beta1*self.V_db2 + self.learningRate*self.db2
+            self.V_dw2 = self.beta1*self.V_dw2 + self.learningRate*self.dw2
+            self.V_db1 = self.beta1*self.V_db1 + self.learningRate*self.db1
+            self.V_dw1 = self.beta1*self.V_dw1 + self.learningRate*self.dw1
 
-            self.b2 -= self.learningRate * self.V_db2
-            self.w2 -= self.learningRate * (self.V_dw2 + self.Lambda * self.w2)
-            self.b1 -= self.learningRate * self.V_db1
-            self.w1 -= self.learningRate * (self.V_dw1 + self.Lambda * self.w1)
+            self.b2 -= self.V_db2
+            self.w2 -= self.V_dw2
+            self.b1 -= self.V_db1
+            self.w1 -= self.V_dw1
         
         elif self.optimizer == 'adam':
             self.V_db2 = self.beta1*self.V_db2 + (1-self.beta1)*self.db2
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
-    nn = NeuralNetwork([784, 512, 10], 'vanilla', 'relu', 'softmax')
+    nn = NeuralNetwork([784, 512, 10], 'momentum', 'relu', 'softmax')
 
     start_time = time.time()
     for i in range (nn.epochs):
