@@ -1,12 +1,12 @@
 import time
 import warnings
 import numpy as np
-import matplotlib.pyplot as plt
-from numpy.core.fromnumeric import size
+from matplotlib import pyplot as plt
 from tensorflow.keras.datasets import mnist
 from progress.bar import IncrementalBar
 
 class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+show_testing = True;
 
 class NeuralNetwork():
 
@@ -77,7 +77,7 @@ class NeuralNetwork():
 	    return np.maximum(0.0, x)
     
     def reluDerivative(self, x):
-        return 1 * (x > 0)
+        return (1 * (x > 0))
 
     def softmax(self, x):
         exps = np.exp(x - np.max(x))
@@ -227,13 +227,17 @@ if __name__ == "__main__":
         correct = int(test_labels[i])
         if correct != prediction:
             incorrect += 1
+        if show_testing:
+            plt.imshow(test_images[i], cmap=plt.get_cmap('gray'))
+            plt.title("Prediction: " + str(prediction))
+            plt.show()
     bar1.finish()
     print ("\nTESTING DONE\n" + "Correct: " + str(size1-incorrect) + "\nIncorrect: " + str(incorrect) + "\n")    
 
-    plt.plot(nn.x, nn.y)
-    plt.ylabel('Avg Error')
-    plt.xlabel('Batches')
-    plt.show()
+    # plt.plot(nn.x, nn.y)
+    # plt.ylabel('Avg Error')
+    # plt.xlabel('Batches')
+    # plt.show()
 
     # stats_file = open("stats_file", "a+")
     # stats_file.write("Correct: " + str(size-incorrect) + "\nIncorrect: " + str(incorrect))
