@@ -6,12 +6,12 @@ from tensorflow.keras.datasets import mnist
 from progress.bar import IncrementalBar
 
 class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-show_testing = True;
+show_testing = True
 
 class NeuralNetwork():
 
     width = 40
-    epochs = 2
+    epochs = 1
     numUsing = 60000
     bs = 250
     beta1 = 0.9
@@ -191,8 +191,7 @@ class NeuralNetwork():
         self.forwardProp(testImage)
         return np.argmax(self.outputNeurons)
 
-if __name__ == "__main__":
-
+def start():
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
     train_images = train_images/255
 
